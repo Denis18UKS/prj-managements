@@ -1,20 +1,3 @@
-<?php
-session_start(); // Если сессии не включены, убедитесь, что они запускаются
-
-// Функция для проверки, является ли пользователь авторизованным
-function isAuthorized($requiredRole)
-{
-    return isset($_SESSION['user']) && $_SESSION['user']['role'] === $requiredRole;
-}
-
-// Проверяем, является ли пользователь авторизованным администратором
-if (!isAuthorized('admin')) {
-    header('HTTP/1.0 403 Forbidden');
-    echo 'У вас нет прав для доступа к этой странице.';
-    exit();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,7 +15,6 @@ if (!isAuthorized('admin')) {
 </head>
 
 <body>
-    <!-- <button class="backing_btn" onclick="window.location.href='admin.html'">Назад</button> -->
 
     <div class="container">
         <section class="sign-in">
@@ -52,15 +34,6 @@ if (!isAuthorized('admin')) {
                     <label for="password">Пароль</label>
                     <input name="password" type="password" id="password" placeholder="Введите пароль">
                 </div>
-
-                <!-- <div class="form__item">
-                    <label for="login">Роль</label>
-                    <select name="role" id="role">
-                        <option value="" disabled selected>Выберите роль</option>
-                        <option value="1">Руководитель</option>
-                        <option value="2">Исполнитель</option>
-                    </select>
-                </div> -->
 
                 <button type="submit" class="form__btn">Зарегистрировать</button>
             </form>

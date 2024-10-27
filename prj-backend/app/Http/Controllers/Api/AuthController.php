@@ -22,11 +22,17 @@ class AuthController extends ApiController
             $user = Auth::user(); // Получаем текущего аутентифицированного пользователя
             Log::info('Успешный вход для пользователя:', ['id' => $user->id]);
 
+            // Проверка роли пользователя
+            $role = $user->roles->first(); // Получаем первую роль пользователя
+
+            // Определяем URL для редиректа на основе роли
+            $redirectUrl = ($role && $role->name === 'Admin') ? url('http://prj-frontend/admin/users.php') : url('/projects-and-tasks');
+
             // Возвращаем успешный ответ с информацией о пользователе и URL для редиректа
             return response()->json([
                 'message' => 'Вход выполнен успешно.',
                 'user' => new UserResource($user),
-                'redirect_url' => url('/projects-and-tasks') // URL страницы проектов и задач
+                'redirect_url' => $redirectUrl
             ], 200);
         }
 
