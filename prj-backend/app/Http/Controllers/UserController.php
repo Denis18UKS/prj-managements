@@ -38,12 +38,17 @@ class UserController extends Controller
             'role' => 'required|string|exists:roles,name',
         ]);
 
+        // Обновление данных пользователя
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
         ]);
 
-        $user->syncRoles([$request->role]);
+        // Поиск или создание роли с guard `web`
+        $role = Role::firstOrCreate(['name' => $request->input('role'), 'guard_name' => 'web']);
+
+        // Назначение роли пользователю
+        $user->syncRoles([$role]);
 
         return response()->json(['message' => 'Данные пользователя обновлены.']);
     }

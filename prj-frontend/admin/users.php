@@ -47,22 +47,24 @@
         <input type="email" id="editUserEmail" placeholder="Email" required>
         <label for="editUserRole">Роль:</label>
         <select id="editUserRole">
-            <!-- Роли будут загружены динамически -->
+            <option value="admin">админ</option>
+            <option value="user">исполнитель</option>
+            <option value="manager">менеджер</option>
         </select>
         <button id="saveUserChanges">Сохранить изменения</button>
         <button id="closeModal">Закрыть</button>
     </div>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Загрузка пользователей
             $.ajax({
                 url: 'http://prj-backend/users',
                 method: 'GET',
                 dataType: 'json',
-                success: function (data) {
-                    data.forEach(function (user) {
-                        const roles = user.roles.map(role => role.name).join(', ');
+                success: function(data) {
+                    data.forEach(function(user) {
+                        const roles = user.roles.length ? user.roles.map(role => role.name).join(', ') : 'user';
                         $('#user-cards').append(`
                             <div class="projects__card">
                                 <div class="projects__card-title">${user.name}</div>
@@ -77,32 +79,35 @@
                     });
 
                     // Открытие модального окна редактирования
-                    $('.edit_btn').on('click', function () {
+                    $('.edit_btn').on('click', function() {
                         const userId = $(this).data('id');
                         $.ajax({
                             url: `http://prj-backend/users/${userId}`,
                             method: 'GET',
                             dataType: 'json',
-                            success: function (user) {
+                            success: function(user) {
                                 $('#editUserName').val(user.name);
                                 $('#editUserEmail').val(user.email);
-                                $('#editUserRole').empty();
-                                user.roles.forEach(function (role) {
-                                    $('#editUserRole').append(`<option value="${role.name}">${role.name}</option>`);
-                                });
+
+                                // Если у пользователя нет роли, задаем значение по умолчанию "user"
+                                const userRole = user.roles.length > 0 ? user.roles[0].name : 'user';
+                                $('#editUserRole').val(userRole);
+
                                 $('#editUserModal').show();
                                 $('#saveUserChanges').data('id', userId);
+                            },
+                            error: function(xhr, status, error) {
+                                console.error("Ошибка при загрузке пользователя:", error);
                             }
                         });
                     });
                 },
-                error: function (xhr, status, error) {
+                error: function(xhr, status, error) {
                     console.error("Ошибка при загрузке пользователей:", error);
                 }
             });
 
-            // Сохранение изменений
-            $('#saveUserChanges').on('click', function () {
+            $('#saveUserChanges').on('click', function() {
                 const userId = $(this).data('id');
                 const updatedUser = {
                     name: $('#editUserName').val(),
@@ -110,17 +115,27 @@
                     role: $('#editUserRole').val()
                 };
 
+                // Обновляем пользователя
                 $.ajax({
                     url: `http://prj-backend/users/${userId}`,
                     method: 'PUT',
                     contentType: 'application/json',
                     data: JSON.stringify(updatedUser),
-                    success: function () {
-                        alert('Данные пользователя успешно обновлены.');
-                        $('#editUserModal').hide();
-                        location.reload();
+                    success: function() {
+                        $.post(`http://prj-backend/users/${userId}/assign-role`, {
+                                role: updatedUser.role
+                            })
+                            .done(function() {
+                                alert('Данные пользователя и роль успешно обновлены.');
+                                $('#editUserModal').hide();
+                                location.reload();
+                            })
+                            .fail(function(xhr, status, error) {
+                                console.error("Ошибка при назначении роли:", error);
+                                alert('Ошибка при назначении роли.');
+                            });
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error("Ошибка при обновлении пользователя:", error);
                         alert('Ошибка при обновлении пользователя.');
                     }
@@ -128,7 +143,7 @@
             });
 
             // Закрытие модального окна
-            $('#closeModal').on('click', function () {
+            $('#closeModal').on('click', function() {
                 $('#editUserModal').hide();
             });
         });

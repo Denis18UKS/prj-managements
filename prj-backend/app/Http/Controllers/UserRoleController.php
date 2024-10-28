@@ -5,40 +5,47 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserRoleController extends Controller
 {
-    public function assignAdminRole()
+    // Метод для назначения роли пользователю
+    public function assignRole(Request $request, $userId)
     {
-        // Создаём роль 'Admin' для guard 'web', если её ещё не существует
-        $adminRole = Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'web']);
+        // Получаем роль из запроса или используем 'user' по умолчанию
+        $roleName = $request->input('role', 'user');
 
-        // Находим пользователя по id
-        $user = User::find(1); // Замените 5 на id нужного пользователя
+        // Добавляем логирование для отладки
+        Log::info("Назначение роли: получено имя роли '{$roleName}' для пользователя с ID {$userId}");
 
-        if ($user) {
-            // Удаляем все существующие роли пользователя
-            $user->syncRoles([]);
+        // Проверяем существование роли, создаем ее, если не найдена
+        $role = Role::firstOrCreate(['name' => $roleName, 'guard_name' => 'web']);
 
-            // Назначаем пользователю роль 'Admin'
-            $user->assignRole($adminRole);
+        // Находим пользователя по ID
+        $user = User::find($userId);
 
-            // Проверяем, назначена ли роль успешно
-            if ($user->hasRole('Admin')) {
-                return response()->json([
-                    'message' => 'Роль Admin успешно назначена пользователю.',
-                    'user' => $user,
-                    'role' => $adminRole,
-                ]);
-            } else {
-                return response()->json([
-                    'message' => 'Не удалось назначить роль Admin.',
-                ], 500);
-            }
-        } else {
+        if (!$user) {
+            Log::error("Пользователь с ID {$userId} не найден.");
+            return response()->json(['message' => 'Пользователь не найден.'], 404);
+        }
+
+        // Удаляем все существующие роли пользователя
+        $user->syncRoles([]);
+
+        // Назначаем пользователю новую роль
+        $user->assignRole($role);
+
+        // Проверка успешного назначения роли
+        if ($user->hasRole($roleName)) {
+            Log::info("Роль '{$roleName}' успешно назначена пользователю с ID {$userId}.");
             return response()->json([
-                'message' => 'Пользователь не найден.',
-            ], 404);
+                'message' => "Роль $roleName успешно назначена пользователю.",
+                'user' => $user,
+                'role' => $role,
+            ]);
+        } else {
+            Log::error("Не удалось назначить роль '{$roleName}' пользователю с ID {$userId}.");
+            return response()->json(['message' => "Не удалось назначить роль $roleName."], 500);
         }
     }
 }
