@@ -7,7 +7,8 @@
     <title>Пользователи</title>
     <link rel="stylesheet" href="../styles/main.css">
     <link rel="stylesheet" href="../styles/user.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="../scripts/admin.js" defer></script>
 </head>
 
@@ -18,7 +19,7 @@
     <div class="container">
         <div class="filter">
             <form class="filter__search" action="" method="get">
-                <input name="search" class="filter__search-input" type="text" placeholder="Найти задачу">
+                <input name="search" class="filter__search-input" type="text" placeholder="Найти пользователя">
                 <button class="filter__search-button">
                     <img src="../images/icon-search.svg" alt="Поиск" class="filter__search-icon">
                 </button>
@@ -33,9 +34,7 @@
                 <img src="../images/account-icon.png" alt="Профиль" class="filter__user-icon-img">
             </a>
         </div>
-    </div>
 
-    <div class="container">
         <button class="add_user_btn" onclick="window.location.href='register.php'">Регистрация пользователя</button>
         <section class="projects">
             <h2 class="title">Пользователи</h2>
@@ -46,14 +45,16 @@
     </div>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Запрос на получение пользователей
             $.ajax({
                 url: 'http://prj-backend/users', // Замените на ваш путь к API
                 method: 'GET',
-                success: function(data) {
-                    console.log(data); // Выводим данные в консоль для отладки
-                    data.forEach(function(user) {
+                dataType:'json',
+                success: function (data) {
+                    // console.log(data); // Выводим данные в консоль для отладки
+                    data.forEach(function (user) {
+                        // lsdjfolsd
                         $('#user-cards').append(`
                             <div class="projects__card">
                                 <div class="projects__card-title">${user.name}</div>
@@ -66,7 +67,7 @@
                         `);
                     });
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error("Ошибка при загрузке пользователей:", error);
                     console.log("Ответ от сервера:", xhr.responseText); // Выводим ответ сервера
                 }

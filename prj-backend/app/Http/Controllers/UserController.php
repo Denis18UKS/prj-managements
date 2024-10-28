@@ -12,4 +12,5 @@ class UserController extends Controller
         $users = User::select('name', 'email')->get();
         return response()->json($users);
     }
+    
 }

@@ -14,7 +14,7 @@ class UserRoleController extends Controller
         $adminRole = Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'web']);
 
         // Находим пользователя по id
-        $user = User::find(5); // Замените 5 на id нужного пользователя
+        $user = User::find(1); // Замените 5 на id нужного пользователя
 
         if ($user) {
             // Удаляем все существующие роли пользователя

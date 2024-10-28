@@ -38,5 +38,7 @@
                 </li>
             </ul>
         </div>
+
+        <button id="logout-button">Выйти</button>
     </div>
 </nav>

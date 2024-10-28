@@ -39,4 +39,18 @@ class AuthController extends ApiController
         // В случае неудачной попытки возвращаем ошибку
         return $this->sendError('Неверное имя пользователя или пароль.', Response::HTTP_UNAUTHORIZED);
     }
+
+    // Логика для выхода
+    public function logout(): JsonResponse
+    {
+        Log::info('Пользователь вышел из системы:', ['id' => Auth::id()]);
+
+        // Завершение сессии пользователя
+        Auth::logout();
+
+        // Возвращаем успешный ответ
+        return response()->json([
+            'message' => 'Вы успешно вышли из системы.'
+        ], 200);
+    }
 }

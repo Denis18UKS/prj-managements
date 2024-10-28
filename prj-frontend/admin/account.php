@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../styles/user.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
     <script src="../scripts/user.js" defer></script>
+    <script src="../scripts/admin.js" defer></script>
 </head>
 
 <body>

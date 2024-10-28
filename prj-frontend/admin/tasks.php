@@ -7,7 +7,7 @@
     <title>Задачи</title>
     <link rel="stylesheet" href="../styles/main.css">
     <link rel="stylesheet" href="../styles/user.css">
-    <script src="../scripts/user.js" defer></script>
+    <script src="../scripts/admin.js" defer></script>
 </head>
 
 <body>
