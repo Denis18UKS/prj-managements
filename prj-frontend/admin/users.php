@@ -89,7 +89,6 @@
                                 $('#editUserName').val(user.name);
                                 $('#editUserEmail').val(user.email);
 
-                                // Если у пользователя нет роли, задаем значение по умолчанию "user"
                                 const userRole = user.roles.length > 0 ? user.roles[0].name : 'user';
                                 $('#editUserRole').val(userRole);
 
@@ -101,12 +100,32 @@
                             }
                         });
                     });
+
+                    // Обработчик кнопки удаления
+                    $('.delete_btn').on('click', function() {
+                        const userId = $(this).data('id');
+                        if (confirm("Вы уверены, что хотите удалить пользователя?")) {
+                            $.ajax({
+                                url: `http://prj-backend/users/${userId}`,
+                                method: 'DELETE',
+                                success: function() {
+                                    alert("Пользователь успешно удалён.");
+                                    location.reload();
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error("Ошибка при удалении пользователя:", error);
+                                    alert('Ошибка при удалении пользователя.');
+                                }
+                            });
+                        }
+                    });
                 },
                 error: function(xhr, status, error) {
                     console.error("Ошибка при загрузке пользователей:", error);
                 }
             });
 
+            // Сохранение изменений пользователя
             $('#saveUserChanges').on('click', function() {
                 const userId = $(this).data('id');
                 const updatedUser = {
@@ -115,7 +134,6 @@
                     role: $('#editUserRole').val()
                 };
 
-                // Обновляем пользователя
                 $.ajax({
                     url: `http://prj-backend/users/${userId}`,
                     method: 'PUT',

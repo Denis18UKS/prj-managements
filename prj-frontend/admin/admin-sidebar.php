@@ -58,7 +58,7 @@
                 .then(data => {
                     if (data.message) {
                         alert(data.message);
-                        window.location.href = '/login';
+                        window.location.href = '/';
                     }
                 })
                 .catch(error => console.error("Ошибка выхода:", error));

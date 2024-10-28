@@ -11,7 +11,7 @@ document.getElementById("logout-button").addEventListener("click", function () {
         .then(data => {
             if (data.message) {
                 alert(data.message);
-                window.location.href = '/login'; // перенаправляем на страницу входа
+                window.location.href = '/'; // перенаправляем на страницу входа
             }
         })
         .catch(error => console.error("Ошибка выхода:", error));

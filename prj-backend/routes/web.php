@@ -10,7 +10,7 @@ Route::get('/users', [UserController::class, 'index']);
 
 Route::get('/users/{id}', [UserController::class, 'show']);
 Route::put('/users/{id}', [UserController::class, 'update']);
-Route::delete('/users/{id}', [UserController::class, 'destroy']);
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
 Route::post('/users/{userId}/assign-role', [UserRoleController::class, 'assignRole']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

@@ -14,16 +14,14 @@ class UserRoleController extends Controller
     {
         // Получаем роль из запроса или используем 'user' по умолчанию
         $roleName = $request->input('role', 'user');
-
-        // Добавляем логирование для отладки
         Log::info("Назначение роли: получено имя роли '{$roleName}' для пользователя с ID {$userId}");
 
-        // Проверяем существование роли, создаем ее, если не найдена
+        // Проверяем существование роли
         $role = Role::firstOrCreate(['name' => $roleName, 'guard_name' => 'web']);
+        Log::info("Роль найдена или создана: {$role->name}");
 
         // Находим пользователя по ID
         $user = User::find($userId);
-
         if (!$user) {
             Log::error("Пользователь с ID {$userId} не найден.");
             return response()->json(['message' => 'Пользователь не найден.'], 404);
@@ -31,18 +29,13 @@ class UserRoleController extends Controller
 
         // Удаляем все существующие роли пользователя
         $user->syncRoles([]);
+        Log::info("Роли пользователя с ID {$userId} успешно очищены.");
 
         // Назначаем пользователю новую роль
         $user->assignRole($role);
-
-        // Проверка успешного назначения роли
         if ($user->hasRole($roleName)) {
             Log::info("Роль '{$roleName}' успешно назначена пользователю с ID {$userId}.");
-            return response()->json([
-                'message' => "Роль $roleName успешно назначена пользователю.",
-                'user' => $user,
-                'role' => $role,
-            ]);
+            return response()->json(['message' => "Роль $roleName успешно назначена пользователю.", 'user' => $user, 'role' => $role]);
         } else {
             Log::error("Не удалось назначить роль '{$roleName}' пользователю с ID {$userId}.");
             return response()->json(['message' => "Не удалось назначить роль $roleName."], 500);
