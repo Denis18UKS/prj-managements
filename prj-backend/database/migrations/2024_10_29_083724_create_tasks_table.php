@@ -13,9 +13,15 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('name');
             $table->text('description')->nullable();
-            $table->foreignId('assignee_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('project_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Исполнитель задачи
+            $table->enum('priority', ['Низкий', 'Средний', 'Высокий']);
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->enum('status', ['Назначена', 'Выполняется', 'Завершена']);
+            $table->integer('days_left')->default(0); // Подсчёт остатка дней
             $table->timestamps();
         });
     }

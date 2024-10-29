@@ -4,7 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\User;
-use App\Models\Project;
 use App\Models\ProjectStatus;
 
 return new class extends Migration
@@ -16,10 +15,6 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(ProjectStatus::class)
-                ->constrained()
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
 
             $table->foreignIdFor(User::class, 'maintainer_id')
                 ->constrained('users')
@@ -32,12 +27,14 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->string('title')->unique();
-            $table->string('description');
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->text('description');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->enum('status', ['created', 'in_progress', 'completed'])->default('created');
+            $table->integer('remaining_days')->nullable(); // Остаток дней до окончания
             $table->timestamps();
 
-            //Отдельно находится - $table->enum('status', ['created', 'in_progress', 'completed']);
+            $table->check('end_date >= start_date'); // Ограничение на корректность дат
         });
     }
 

@@ -5,36 +5,34 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 
 class Project extends Model
 {
     use HasFactory;
 
-    protected $filliable = [
-        'project_status_id',
+    protected $fillable = [
         'maintainer_id',
         'executor_id',
         'title',
         'description',
         'start_date',
         'end_date',
+        'status',
     ];
 
     protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
+        'status' => 'string',
     ];
 
-    public function projectStatus()
-    {
-        return $this->belongsTo(ProjectStatus::class);
-    }
 
     public function maintainer()
     {
         return $this->belongsTo(User::class, 'maintainer_id');
     }
+
     public function executor()
     {
         return $this->belongsTo(User::class, 'executor_id');
@@ -42,14 +40,15 @@ class Project extends Model
 
     public function getDaysRemainingAttribute(): int
     {
-        return $this->end_date->diffInDays();
+        if ($this->status === 'completed') {
+            return 0;
+        }
+
+        return Carbon::now()->diffInDays($this->end_date, false);
     }
 
     public function scopeCompleted(Builder $builder)
     {
-
-        return $builder->where(function ($builder) {
-            $builder->projectStatus()->where('name', 'completed');
-        });
+        return $builder->where('status', 'completed');
     }
 }
