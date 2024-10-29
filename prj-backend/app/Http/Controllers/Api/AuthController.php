@@ -26,7 +26,21 @@ class AuthController extends ApiController
             $role = $user->roles->first(); // Получаем первую роль пользователя
 
             // Определяем URL для редиректа на основе роли
-            $redirectUrl = ($role && $role->name === 'Admin') ? url('http://prj-frontend/admin/users.php') : url('/projects-and-tasks');
+            $redirectUrl = url('/projects-and-tasks'); // URL по умолчанию
+            if ($role) {
+                switch ($role->name) {
+                    case 'Admin':
+                        $redirectUrl = url('http://prj-frontend/admin/users.php');
+                        break;
+                    case 'manager':
+                        $redirectUrl = url('/manager/dashboard'); // URL для роли manager
+                        break;
+                        // Вы можете добавить другие роли, если это необходимо
+                    default:
+                        $redirectUrl = url('/projects-and-tasks'); // По умолчанию для остальных ролей
+                        break;
+                }
+            }
 
             // Возвращаем успешный ответ с информацией о пользователе и URL для редиректа
             return response()->json([

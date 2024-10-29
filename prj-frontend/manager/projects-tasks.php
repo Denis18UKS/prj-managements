@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="../styles/main.css">
     <link rel="stylesheet" href="../styles/user.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+
     <script src="../scripts/admin.js" defer></script>
+    <script src="../scripts/logout.js" defer></script>
 </head>
 
 <body>
@@ -32,10 +34,7 @@
                 <img class="notifications-top" src="../images/notofication-top.svg" alt="">
                 <img class="notifications-bottom" src="../images/notification-bottom.svg" alt="">
             </div>
-            <!-- <div class="notifications--active">
-                <img class="notifications-top" src="../images/notofication-top.svg" alt="">
-                <img class="notifications-bottom" src="../images/notification-bottom.svg" alt="">
-            </div> // Если есть уведомления -->
+
             <a class="filter__user-icon" href="account.php">
                 <img class="filter__user-icon-img" src="../images/account-icon.png" alt="">
             </a>
@@ -43,6 +42,7 @@
     </div>
 
     <div class="container">
+        <button class="add_user_btn" onclick="window.location.href=''">Назначить задачу</button>
         <section class="tasks">
             <h2 class="title">Проекты</h2>
             <div class="tasks__cards">
@@ -52,6 +52,8 @@
                     </div>
                     <div class="tasks__card-project">Проект</div>
                     <div class="tasks__card-title">Название</div>
+                    <div class="tasks__card-title">Руководитель: </div>
+                    <div class="tasks__card-time">Задача №: </div>
                     <div class="tasks__card-time">Осталось: <span class="tasks__card-time-value">2</span>д</div>
                     <div class="tasks__card-status">Статус: <span class="tasks__card-status-value">Назначена</span>
                     </div>

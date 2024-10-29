@@ -645,3 +645,72 @@ button:hover {
     z-index: 1000;
     display: none;
 }
+
+/* Основной стиль для модального окна */
+.modal {
+    display: none; /* Скрыть по умолчанию */
+    position: fixed;
+    z-index: 1000; /* На переднем плане */
+    left: 0;
+    top: 0;
+    width: 100%; /* Полная ширина */
+    height: 100%; /* Полная высота */
+    overflow: auto; /* Добавить прокрутку, если нужно */
+    background-color: rgb(0, 0, 0); /* Черный фон */
+    background-color: rgba(0, 0, 0, 0.4); /* Полупрозрачный фон */
+}
+
+/* Стили для содержимого модального окна */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% сверху и центрировать */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Ширина модального окна */
+    max-width: 600px; /* Максимальная ширина */
+    border-radius: 8px; /* Закругленные углы */
+}
+
+/* Стиль для кнопки закрытия */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Заголовок модального окна */
+.modal h2 {
+    margin: 0 0 10px;
+}
+
+/* Поля ввода */
+.modal input,
+.modal select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Кнопки */
+.modal button {
+    background-color: #4caf50; /* Зеленый */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.modal button:hover {
+    background-color: #45a049; /* Более темный зеленый */
+}

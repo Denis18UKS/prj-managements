@@ -31,10 +31,7 @@
                 <img class="notifications-top" src="../images/notofication-top.svg" alt="">
                 <img class="notifications-bottom" src="../images/notification-bottom.svg" alt="">
             </div>
-            <!-- <div class="notifications--active">
-                <img class="notifications-top" src="../images/notofication-top.svg" alt="">
-                <img class="notifications-bottom" src="../images/notification-bottom.svg" alt="">
-            </div> // Если есть уведомления -->
+
             <a class="filter__user-icon" href="account.php">
                 <img class="filter__user-icon-img" src="../images/account-icon.png" alt="">
             </a>
@@ -43,13 +40,13 @@
 
     <div class="container">
         <section class="tasks">
-            <h2 class="title">Мои Задачи</h2>
+            <h2 class="title">Задачи</h2>
             <div class="tasks__cards">
                 <div class="tasks__card low">
                     <div class="tasks__card-priority low">
                         <img src="../images/prioryty-icon.png" alt="">
                     </div>
-                    <div class="tasks__card-project">Проект</div>
+                    <div class="tasks__card-project">Задача</div>
                     <div class="tasks__card-title">Название</div>
                     <div class="tasks__card-time">Осталось: <span class="tasks__card-time-value">2</span>д</div>
                     <div class="tasks__card-status">Статус: <span class="tasks__card-status-value">Назначена</span>
@@ -78,7 +75,7 @@
                     <div class="tasks__card-priority medium">
                         <img src="../images/prioryty-icon.png" alt="">
                     </div>
-                    <div class="tasks__card-project">Проект</div>
+                    <div class="tasks__card-project">Задача</div>
                     <div class="tasks__card-title">Название</div>
                     <div class="tasks__card-time">Осталось: <span class="tasks__card-time-value">2</span>д</div>
                     <div class="tasks__card-status">Статус: <span class="tasks__card-status-value">Назначена</span>
