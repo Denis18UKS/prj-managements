@@ -25,7 +25,7 @@ $(document).ready(function () {
     function loadManagerOptions() {
         // Здесь нужно запросить список пользователей (руководителей) 
         $.ajax({
-            url: 'http://prj-backend/users', // Или ваш URL для пользователей
+            url: 'http://prj-backend/managers', // Или ваш URL для пользователей
             method: 'GET',
             success: function (data) {
                 $('#projectManager').empty();

@@ -16,6 +16,18 @@ class UserController extends Controller
         return response()->json($users);
     }
 
+    public function managers(): JsonResponse
+    {
+        $users = User::role('manager')->select('id', 'name')->get();
+        return response()->json($users);
+    }
+
+    public function executors(): JsonResponse
+    {
+        $users = User::role('executors')->select('id', 'name')->get();
+        return response()->json($users);
+    }
+
     public function show($id): JsonResponse
     {
         $user = User::with('roles')->find($id);

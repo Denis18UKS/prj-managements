@@ -10,6 +10,9 @@ use App\Http\Controllers\TaskController;
 
 Route::get('/users', [UserController::class, 'index']);
 
+Route::get('/managers', [UserController::class, 'managers']);
+Route::get('/executors', [UserController::class, 'executors']);
+
 Route::get('/users/{id}', [UserController::class, 'show']);
 Route::put('/users/{id}', [UserController::class, 'update']);
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
