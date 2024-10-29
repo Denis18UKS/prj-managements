@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
+            $table->foreignId('assignee_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }
@@ -24,6 +25,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('tasks', function (Blueprint $table) {
+            $table->dropForeign(['assignee_id']);
+            $table->dropColumn('assignee_id');
+        });
+
         Schema::dropIfExists('tasks');
     }
 };
