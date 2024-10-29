@@ -11,7 +11,7 @@
     <script src="../scripts/admin.js" defer></script>
     <script src="../scripts/logout.js" defer></script>
     <script src="../scripts/project-and-task.js" defer></script>
-    
+
 </head>
 
 <body>
@@ -65,8 +65,8 @@
         <div class="modal-content">
             <span class="close" id="closeTaskModal">&times;</span>
             <h2>Создать задачу</h2>
-            <input type="text" id="taskName" placeholder="Название задачи">
-            <select id="taskAssigneeId"></select>
+            <input type="text" id="taskName" placeholder="Название задачи" required>
+            <textarea id="taskDescription" placeholder="Описание задачи" rows="4"></textarea>
             <button id="confirmCreateTaskBtn">Создать</button>
         </div>
     </div>

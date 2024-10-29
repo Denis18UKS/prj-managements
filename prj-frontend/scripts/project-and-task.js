@@ -79,7 +79,7 @@ $(document).ready(function () {
             success: function (data) {
                 $('#projectTaskId').empty();
                 data.forEach(function (task) {
-                    $('#projectTaskId').append(`<option value="${task.id}">${task.name}</option>`);
+                    $('#projectTaskId').append(`<option value="${task.id}">${task.title}</option>`);
                 });
             },
             error: function () {
@@ -133,16 +133,14 @@ $(document).ready(function () {
 
     $('#confirmCreateTaskBtn').click(function () {
         const taskName = $('#taskName').val();
-        const projectId = $('#taskProjectId').val();
-        const assigneeId = $('#taskAssigneeId').val();
+        const taskDescription = $('#taskDescription').val();
 
         $.ajax({
             url: 'http://prj-backend/tasks',
             method: 'POST',
             data: {
-                name: taskName,
-                project_id: projectId,
-                assigned_to: assigneeId
+                title: taskName,
+                description: taskDescription,
             },
             success: function () {
                 loadProjects();
